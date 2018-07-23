@@ -1,29 +1,29 @@
 /* tslint:disable:no-unused-variable */
 
-import {TestBed, getTestBed} from '@angular/core/testing';
-import {AppModule} from './app.module';
-import {AppComponent} from './app.component';
-import {Injector} from '@angular/core';
-import {AuthentificationStore} from './service/auth/authentification.store';
-import {User} from './model/user.model';
-import {SharedModule} from './shared/shared.module';
-import {ProjectStore} from './service/project/project.store';
-import {ApplicationStore} from './service/application/application.store';
-import {ProjectService} from './service/project/project.service';
-import {ActivatedRoute} from '@angular/router';
 import {APP_BASE_HREF} from '@angular/common';
+import {Injector} from '@angular/core';
+import {getTestBed, TestBed} from '@angular/core/testing';
+import {ActivatedRoute} from '@angular/router';
+import {RouterTestingModule} from '@angular/router/testing';
+import 'rxjs/add/observable/of';
 import {Observable} from 'rxjs/Observable';
+import {first} from 'rxjs/operators';
+import {AppComponent} from './app.component';
+import {AppModule} from './app.module';
+import {AppService} from './app.service';
+import {Application} from './model/application.model';
+import {LastModification} from './model/lastupdate.model';
+import {Pipeline} from './model/pipeline.model';
+import {Project} from './model/project.model';
+import {User} from './model/user.model';
 import {ApplicationService} from './service/application/application.service';
+import {ApplicationStore} from './service/application/application.store';
+import {AuthentificationStore} from './service/auth/authentification.store';
 import {PipelineService} from './service/pipeline/pipeline.service';
 import {PipelineStore} from './service/pipeline/pipeline.store';
-import {LastModification} from './model/lastupdate.model';
-import {AppService} from './app.service';
-import {RouterTestingModule} from '@angular/router/testing';
-import {Pipeline} from './model/pipeline.model';
-import {Application} from './model/application.model';
-import {Project} from './model/project.model';
-import {first} from 'rxjs/operators';
-import 'rxjs/add/observable/of';
+import {ProjectService} from './service/project/project.service';
+import {ProjectStore} from './service/project/project.store';
+import {SharedModule} from './shared/shared.module';
 
 describe('App: CDS', () => {
 
@@ -83,7 +83,13 @@ describe('App: CDS', () => {
         expect(compiled.querySelector('#navbar.connected')).toBeFalsy('Nav bar must not have the css class "connected"');
 
         fixture.componentInstance.ngOnInit();
-        authStore.addUser(new User(), false);
+        let u = new User();
+        u.admin = true;
+        u.email = 'foo.bar@foobar.com';
+        u.fullname = 'Foo Bar';
+        u.token = 'foobarfoobarfoobar';
+        u.username = 'foo.bar';
+        authStore.addUser(u, true);
 
         expect(fixture.componentInstance.isConnected).toBeTruthy('IsConnected flag must be true');
         expect(compiled.querySelector('#navbar.connected')).toBeFalsy('Nav bar must have connected css class');
