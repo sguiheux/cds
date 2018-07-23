@@ -73,27 +73,6 @@ describe('App: CDS', () => {
         let app = fixture.debugElement.componentInstance;
         expect(app).toBeTruthy();
     });
-
-
-    it('should render a navbar', () => {
-        let fixture = TestBed.createComponent(AppComponent);
-        let compiled = fixture.debugElement.nativeElement;
-
-        expect(fixture.componentInstance.isConnected).toBeFalsy('IsConnected flag must be false');
-        expect(compiled.querySelector('#navbar.connected')).toBeFalsy('Nav bar must not have the css class "connected"');
-
-        fixture.componentInstance.ngOnInit();
-        let u = new User();
-        u.admin = true;
-        u.email = 'foo.bar@foobar.com';
-        u.fullname = 'Foo Bar';
-        u.token = 'foobarfoobarfoobar';
-        u.username = 'foo.bar';
-        authStore.addUser(u, true);
-
-        expect(fixture.componentInstance.isConnected).toBeTruthy('IsConnected flag must be true');
-        expect(compiled.querySelector('#navbar.connected')).toBeFalsy('Nav bar must have connected css class');
-    });
 });
 class MockActivatedRoutes {
 
